@@ -1,0 +1,77 @@
+{% extends "students/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %}Студенти{% endblock meta_title %}
+
+{% block meta %}База Студентів{% endblock meta %}
+		
+{% block content %}
+		<!-- Add Student Buton -->
+		<div class="text-center">
+			<a href="#">&larr;</a><STRONG>Жовтень 2015</STRONG><a href="#">&rarr;</a>
+ 		</div>
+		<table class="table table-bordered table-hover table-striped">
+		  <thead>
+		    <tr>
+			<th><a href="">№</a></th>
+			<th>Студент</th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+			<th><div class-"text-center">DF 1</div></th>
+		    </tr>
+		  <thead>
+	  	  <tbody>
+		    {% for student in students %}
+		    <tr>
+			<td>{{forloop.counter }}</td>
+			<td>{{student.name}}</td>
+			{% for i in student.month %}
+			<td><input type="checkbox"></td>
+			{% endfor %}
+		    </tr>
+		    {% endfor %}
+		  </tbody>
+		  <table>
+			{% include "students/pag.html" %}
+		<!-- End Student Listing -->
+{% endblock content %}
+
+{% block footer %}
+<!-- Start Footer -->
+	  <div class="row" id="footer">
+	    <div class="col-xs-12">
+		&copy; 2015 Сервіс Обліку Студентів
+	    </div>
+	  </div>
+	  <!-- End Footer -->
+{% endblock footer %}
+

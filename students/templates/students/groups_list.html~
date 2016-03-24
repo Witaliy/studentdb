@@ -4,7 +4,7 @@
 
 {% block meta_title%}{% endblock meta_title %}
 
-{% bloc meta %}База Студентів{% endblock meta %}
+{% block meta %}База Студентів{% endblock meta %}
 
 {% block content%}
 
@@ -63,4 +63,14 @@
 			</nav>
 		<!-- End Student Listing -->
 {% endblock content %}
+
+{% block footer%}
+<!-- Start Footer -->
+	  <div class="row" id="footer">
+	    <div class="col-xs-12">
+		&copy; 2014 Сервіс Обліку Студентів
+	    </div>
+	  </div>
+	  <!-- End Footer -->
+{% endblock footer %}
 	    
