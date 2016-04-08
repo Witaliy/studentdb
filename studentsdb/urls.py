@@ -34,6 +34,9 @@ url(r'^admin/', include(admin.site.urls)),
 
 # Journal urls
 url(r'^journal/$', 'students.views.journal.students_list', name='journal'),
+url(r'^exam', 'students.views.exam.exams_list', name='exam'),
+# Isputs urls
+
 )
 from .settings import MEDIA_ROOT, DEBUG
 
