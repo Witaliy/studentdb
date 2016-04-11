@@ -33,10 +33,10 @@ class Student(models.Model):
 	   verbose_name=u"Дата народження",
 	   null=True)
 
-	photo = models.ImageField(
-	   blank=True,
-	   verbose_name=u"Фото",
-	   null=True)
+	ticket = models.CharField(
+	   max_length=256,
+	   blank=False,
+	   verbose_name=u"Білет")
 
 	student_group = models.ForeignKey('Group',
 		verbose_name=u"Група",
@@ -44,10 +44,10 @@ class Student(models.Model):
 		null=True,
 		on_delete=models.PROTECT)
 
-	ticket = models.CharField(
-	   max_length=256,
-	   blank=False,
-	   verbose_name=u"Білет")
+	photo = models.ImageField(
+	   blank=True,
+	   verbose_name=u"Фото",
+	   null=True)
 
 	notes = models.TextField(
 	   blank=True,
