@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,  HttpResponseRedirect
+from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+from  django.views.generic import UpdateView, CreateView, DeleteView
+from django.forms import ModelForm
+
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit
 from ..models import Group
 
 #Views for Groups
@@ -31,12 +37,120 @@ def groups_list(request):
 
    return render(request, 'students/groups_list.html',{'groups': groups})
 
-def groups_add(request):
-   return HttpResponse('<h1>Group Add Form</h1>')
+class GroupsAddForm(ModelForm):
+   class Meta:
+      model = Group
+      fields = ['title', 'leader', 'notes']
 
-def groups_edit(request, gid):
-   return HttpResponse('<h1>Edit Group %s</h1>' % gid)
+   def __init__(self, *args, **kwargs):
+      super(GroupsAddForm, self).__init__(*args, **kwargs)
 
-def groups_delete(request, gid):
-   return HttpResponse('<h1>Delete Group %s</h1>' % gid)
+      self.helper = FormHelper()
+
+      self.helper.form_action = reverse('groups_add')
+      self.helper._form_method = 'POST'
+      self.helper._form_class = 'form-horizontal'
+
+      self.helper.help_text_inline = True
+      self.helper.label_class = 'col-sm-2 control-label'
+      self.helper.field_class = 'col-sm-5'
+
+      self.helper.layout = Layout(
+         Fieldset('', 'title', 'leader', 'notes'),
+         ButtonHolder(
+             Submit('save_button', u'Зберегти', css_class='btn btn-primary'),
+                Submit('cancel_button', u'Скасувати', css_class='btn btn-link')))
+
+
+class GroupsAddView(CreateView):
+
+   model = Group
+   template_name = 'students/students_edit_add.html'
+   form_class = GroupsAddForm
+
+   def get_context_data(self, **kwargs):
+
+      context = super(GroupsAddView, self).get_context_data(**kwargs)
+      context['title'] = u'Додати групу'
+      return context
+
+   def get_success_url(self):
+      return u'%s?status_message=Групу успішно збережено!' % reverse('groups')
+
+   def post(self, request, *args, **kwargs):
+      if request.POST.get('cancel_button'):
+         return HttpResponseRedirect(u'%s?status_message=Додавання групи відмінено!' % reverse('groups'))
+      else:
+         return super(GroupsAddView, self).post(request, *args, **kwargs)
+
+
+class GroupsUpdateForm(ModelForm):
+   class Meta:
+      model = Group
+      fields = ['title', 'leader', 'notes']
+
+   def __init__(self, *args, **kwargs):
+      super(GroupsUpdateForm, self).__init__(*args, **kwargs)
+
+      self.helper = FormHelper()
+
+      self.helper.form_action = reverse('groups_edit',kwargs={'pk': kwargs['instance'].id})
+      self.helper._form_method = 'POST'
+      self.helper._form_class = 'form-horizontal'
+
+      self.helper.help_text_inline = True
+      self.helper.label_class = 'col-sm-2 control-label'
+      self.helper.field_class = 'col-sm-5'
+
+      self.helper.layout = Layout(
+         Fieldset('', 'title', 'leader', 'notes'),
+         ButtonHolder(
+             Submit('save_button', u'Зберегти', css_class='btn btn-primary'),
+                Submit('cancel_button', u'Скасувати', css_class='btn btn-link')))
+
+
+
+class GroupsUpdateView(UpdateView):
+
+   model = Group
+   template_name = 'students/students_edit_add.html'
+   form_class = GroupsUpdateForm
+
+
+   def get_context_data(self, **kwargs):
+
+      context = super(GroupsUpdateView, self).get_context_data(**kwargs)
+      context['title'] = u'Редагувати групу'
+      return context
+
+   def get_success_url(self):
+      return u'%s?status_message=Зміни успішно збережені!' % reverse('groups')
+
+   def post(self, request, *args, **kwargs):
+      if request.POST.get('cancel_button'):
+         return HttpResponseRedirect(u'%s?status_message=Редагування групи відмінено!' % reverse('groups'))
+      else:
+         return super(GroupsUpdateView, self).post(request, *args, **kwargs)
+
+
+class GroupsDeleteView(DeleteView):
+   model = Group
+   template_name = 'students/groups_confirm_delete.html'
+
+   def get_context_data(self, **kwargs):
+      context = super(GroupsDeleteView, self).get_context_data(**kwargs)
+      context['title'] = u'Видалити групу'
+      return context
+
+   def get_success_url(self):
+      return u'%s?status_message=Групу успішно видалено!' % reverse('groups')
+
+   def post(self, request, *args, **kwargs):
+      if request.POST.get('cancel_button'):
+         return HttpResponseRedirect(u'%s?status_message=Видаленя групи відмінено!' % reverse('groups'))
+      else:
+         return super(GroupsDeleteView, self).post(request, *args, **kwargs)
+
+
+
 

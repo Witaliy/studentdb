@@ -17,6 +17,7 @@ Including another URLconf
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from students.views.students import StudentUpdateView, StudentAddView, StudentDeleteView
+from students.views.groups import GroupsAddView, GroupsUpdateView, GroupsDeleteView
 
 
 urlpatterns = patterns('',
@@ -28,9 +29,9 @@ url(r'^students/(?P<pk>\d+)/delete/$', StudentDeleteView.as_view(), name='studen
 
 # Groups urls
 url(r'^groups/$', 'students.views.groups.groups_list', name='groups'),
-url(r'^groups/add/$', 'students.views.groups.groups_add', name='groups_add'),
-url(r'^groups/(?P<gid>\d+)/edit/$', 'students.views.groups.groups_edit', name='groups_edit'),
-url(r'^groups/(?P<gid>\d+)/delete/$', 'students.views.groups.groups_delete', name='groups_delete'),
+url(r'^groups/add/$', GroupsAddView.as_view(), name='groups_add'),
+url(r'^groups/(?P<pk>\d+)/edit/$', GroupsUpdateView.as_view(), name='groups_edit'),
+url(r'^groups/(?P<pk>\d+)/delete/$', GroupsDeleteView.as_view(), name='groups_delete'),
 url(r'^admin/', include(admin.site.urls)),
 
 # Journal urls
